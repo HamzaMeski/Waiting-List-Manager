@@ -1,65 +1,12 @@
 spring:
-  application:
-    name: BACKEND
-  profiles:
-    active: dev  # Default profile
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/waitinglist_db
-    username: postgres
-    password: your_password
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/waitinglist_db
+    username: hamza
+    password: hamza
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-
-server:
-  port: 8080
-  error:
-    include-message: always
-    include-binding-errors: always
-
-logging:
-  level:
-    root: INFO
-    com.WaitingList.BACKEND: DEBUG
-    org.hibernate.SQL: DEBUG
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-  datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: none  # More conservative for production
-    show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-server:
-  port: ${PORT:8080}
-  error:
-    include-message: never
-    include-binding-errors: never
-
-logging:
-  level:
-    root: WARN
-    com.WaitingList.BACKEND: INFO
