@@ -2,12 +2,15 @@ package com.WaitingList.BACKEND.controller.v1;
 
 import com.WaitingList.BACKEND.dto.request.WaitingRoomRequestDTO;
 import com.WaitingList.BACKEND.dto.response.WaitingRoomResponseDTO;
-import com.WaitingList.BACKEND.service.WaitingRoomService;
+import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
+import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/waiting-rooms")
+@RequiredArgsConstructor
 public class WaitingRoomController {
     private final WaitingRoomService waitingRoomService;
 
