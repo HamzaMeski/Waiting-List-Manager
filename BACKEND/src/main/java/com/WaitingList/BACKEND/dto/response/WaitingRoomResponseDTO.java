@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class WaitingRoomResponseDTO {
     private Long id;
+    private String name;
     private LocalDate date;
     private SchedulingAlgorithm algorithm;
     private Integer maxCapacity;
