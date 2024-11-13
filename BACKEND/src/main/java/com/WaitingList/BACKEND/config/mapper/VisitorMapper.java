@@ -1,7 +1,7 @@
 package com.WaitingList.BACKEND.config.mapper;
 
-import com.WaitingList.BACKEND.dto.request.VisitorRequestDTO;
-import com.WaitingList.BACKEND.dto.response.VisitorResponseDTO;
+import com.WaitingList.BACKEND.dto.request.visitor.VisitorRequestDTO;
+import com.WaitingList.BACKEND.dto.response.visitor.VisitorResponseDTO;
 import com.WaitingList.BACKEND.entity.Visitor;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

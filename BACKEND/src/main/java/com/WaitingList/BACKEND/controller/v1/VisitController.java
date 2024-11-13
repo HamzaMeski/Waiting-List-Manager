@@ -1,7 +1,7 @@
 package com.WaitingList.BACKEND.controller.v1;
 
-import com.WaitingList.BACKEND.dto.request.VisitRequestDTO;
-import com.WaitingList.BACKEND.dto.response.VisitResponseDTO;
+import com.WaitingList.BACKEND.dto.request.visit.VisitRequestDTO;
+import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.VisitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

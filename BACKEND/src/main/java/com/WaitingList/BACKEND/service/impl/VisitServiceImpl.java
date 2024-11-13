@@ -1,7 +1,7 @@
 package com.WaitingList.BACKEND.service.impl;
 
-import com.WaitingList.BACKEND.dto.request.VisitRequestDTO;
-import com.WaitingList.BACKEND.dto.response.VisitResponseDTO;
+import com.WaitingList.BACKEND.dto.request.visit.VisitRequestDTO;
+import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.entity.Visit;
 import com.WaitingList.BACKEND.entity.Visitor;
 import com.WaitingList.BACKEND.entity.WaitingRoom;

@@ -1,7 +1,8 @@
 package com.WaitingList.BACKEND.controller.v1;
 
-import com.WaitingList.BACKEND.dto.request.WaitingRoomRequestDTO;
-import com.WaitingList.BACKEND.dto.response.WaitingRoomResponseDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.AlgorithmUpdateDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
+import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,8 @@ public class WaitingRoomController {
     @PatchMapping("/{id}/algorithm")
     public ResponseEntity<WaitingRoomResponseDTO> updateAlgorithm(
             @PathVariable Long id,
-            @RequestParam SchedulingAlgorithm algorithm) {
-        return ResponseEntity.ok(waitingRoomService.updateAlgorithm(id, algorithm));
+            @RequestBody AlgorithmUpdateDTO algorithmUpdateDTO
+    ) {
+        return ResponseEntity.ok(waitingRoomService.updateAlgorithm(id, algorithmUpdateDTO));
     }
 }

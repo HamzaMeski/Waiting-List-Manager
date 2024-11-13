@@ -1,16 +1,17 @@
-FROM eclipse-temurin:17-jre-alpine
-
+# Build stage
+FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 
-# List contents before copy (for debugging)
-RUN ls -la
+# Copy only pom.xml first to cache dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Copy the entire target directory
-COPY target ./target/
+# Then copy source code and build
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# List contents after copy (for debugging)
-RUN ls -la target/
-
-EXPOSE 8080
-
-CMD ["java", "-jar", "target/BACKEND-0.0.1-SNAPSHOT.jar"]
+# Run stage
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/BACKEND-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "-Dspring.output.ansi.enabled=ALWAYS", "app.jar"]

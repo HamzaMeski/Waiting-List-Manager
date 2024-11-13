@@ -1,7 +1,7 @@
 package com.WaitingList.BACKEND.config.mapper;
 
-import com.WaitingList.BACKEND.dto.request.WaitingRoomRequestDTO;
-import com.WaitingList.BACKEND.dto.response.WaitingRoomResponseDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
+import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

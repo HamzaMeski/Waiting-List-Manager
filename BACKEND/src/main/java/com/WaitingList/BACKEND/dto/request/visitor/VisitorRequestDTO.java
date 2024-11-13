@@ -1,4 +1,4 @@
-package com.WaitingList.BACKEND.dto.request;
+package com.WaitingList.BACKEND.dto.request.visitor;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

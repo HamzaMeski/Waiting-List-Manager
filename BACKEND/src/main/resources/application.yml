@@ -1,12 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/waitinglist_db
+    url: jdbc:postgresql://localhost:5432/waitinglist_db
     username: hamza
     password: hamza
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        format_sql: true

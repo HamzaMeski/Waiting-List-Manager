@@ -1,7 +1,8 @@
 package com.WaitingList.BACKEND.service.impl;
 
-import com.WaitingList.BACKEND.dto.request.WaitingRoomRequestDTO;
-import com.WaitingList.BACKEND.dto.response.WaitingRoomResponseDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.AlgorithmUpdateDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
+import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
 import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
@@ -40,11 +41,11 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
     }
 
     @Override
-    public WaitingRoomResponseDTO updateAlgorithm(Long id, SchedulingAlgorithm algorithm) {
+    public WaitingRoomResponseDTO updateAlgorithm(Long id, AlgorithmUpdateDTO algorithmUpdateDTO) {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found"));
 
-        waitingRoom.setAlgorithm(algorithm);
+        waitingRoom.setAlgorithm(algorithmUpdateDTO.getAlgorithm());
         return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(waitingRoom));
     }
 }

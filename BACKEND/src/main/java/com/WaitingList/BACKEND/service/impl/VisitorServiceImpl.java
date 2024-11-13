@@ -1,8 +1,8 @@
 package com.WaitingList.BACKEND.service.impl;
 
-import com.WaitingList.BACKEND.dto.request.VisitorRequestDTO;
-import com.WaitingList.BACKEND.dto.response.VisitorResponseDTO;
-import com.WaitingList.BACKEND.dto.response.VisitResponseDTO;
+import com.WaitingList.BACKEND.dto.request.visitor.VisitorRequestDTO;
+import com.WaitingList.BACKEND.dto.response.visitor.VisitorResponseDTO;
+import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.entity.Visitor;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
 import com.WaitingList.BACKEND.repository.VisitRepository;

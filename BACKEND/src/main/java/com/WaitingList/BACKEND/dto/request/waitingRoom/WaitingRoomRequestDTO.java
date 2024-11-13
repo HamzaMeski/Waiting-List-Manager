@@ -1,4 +1,4 @@
-package com.WaitingList.BACKEND.dto.request;
+package com.WaitingList.BACKEND.dto.request.waitingRoom;
 
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 import jakarta.validation.constraints.NotBlank;

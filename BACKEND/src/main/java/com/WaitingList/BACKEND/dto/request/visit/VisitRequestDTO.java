@@ -1,4 +1,4 @@
-package com.WaitingList.BACKEND.dto.request;
+package com.WaitingList.BACKEND.dto.request.visit;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

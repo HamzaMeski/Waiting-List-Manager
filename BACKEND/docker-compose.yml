@@ -8,11 +8,18 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/waitinglist_db
       SPRING_DATASOURCE_USERNAME: hamza
       SPRING_DATASOURCE_PASSWORD: hamza
+      SPRING_OUTPUT_ANSI_ENABLED: ALWAYS
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   db:
     image: postgres:13
@@ -22,6 +29,11 @@ services:
       POSTGRES_PASSWORD: hamza
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hamza"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db_data:
