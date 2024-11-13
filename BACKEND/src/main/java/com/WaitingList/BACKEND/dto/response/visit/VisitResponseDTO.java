@@ -1,5 +1,6 @@
-package com.WaitingList.BACKEND.dto.response;
+package com.WaitingList.BACKEND.dto.response.visit;
 
+import com.WaitingList.BACKEND.dto.response.visitor.VisitorResponseDTO;
 import com.WaitingList.BACKEND.util.constants.VisitorStatus;
 import lombok.Getter;
 import lombok.Setter;

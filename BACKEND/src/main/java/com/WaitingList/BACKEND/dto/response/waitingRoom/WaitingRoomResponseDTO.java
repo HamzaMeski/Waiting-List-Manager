@@ -1,4 +1,4 @@
-package com.WaitingList.BACKEND.dto.response;
+package com.WaitingList.BACKEND.dto.response.waitingRoom;
 
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 import lombok.Getter;

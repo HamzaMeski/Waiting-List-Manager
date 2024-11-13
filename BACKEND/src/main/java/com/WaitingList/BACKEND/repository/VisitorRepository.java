@@ -1,4 +1,9 @@
 package com.WaitingList.BACKEND.repository;
 
-public interface VisitorRepository {
+import com.WaitingList.BACKEND.entity.Visitor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface VisitorRepository extends JpaRepository<Visitor, Long> {
 }

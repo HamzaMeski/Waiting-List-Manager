@@ -1,4 +1,4 @@
-package com.WaitingList.BACKEND.dto.response;
+package com.WaitingList.BACKEND.dto.response.visitor;
 
 import lombok.Getter;
 import lombok.Setter;

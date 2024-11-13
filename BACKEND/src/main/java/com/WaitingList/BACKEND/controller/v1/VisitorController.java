@@ -1,14 +1,16 @@
 package com.WaitingList.BACKEND.controller.v1;
 
-import com.WaitingList.BACKEND.dto.request.VisitorRequestDTO;
-import com.WaitingList.BACKEND.dto.response.VisitorResponseDTO;
-import com.WaitingList.BACKEND.dto.response.VisitResponseDTO;
-import com.WaitingList.BACKEND.service.VisitorService;
+import com.WaitingList.BACKEND.dto.request.visitor.VisitorRequestDTO;
+import com.WaitingList.BACKEND.dto.response.visitor.VisitorResponseDTO;
+import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
+import com.WaitingList.BACKEND.service.interfaces.VisitorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/visitors")
+@RequiredArgsConstructor
 public class VisitorController {
     private final VisitorService visitorService;
 
