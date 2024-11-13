@@ -5,17 +5,18 @@ import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
 import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
+import com.WaitingList.BACKEND.repository.VisitRepository;
 import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
 import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
 import com.WaitingList.BACKEND.config.mapper.WaitingRoomMapper;
-import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
+import com.WaitingList.BACKEND.util.constants.VisitorStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.NotActiveException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WaitingRoomServiceImpl implements WaitingRoomService {
     private final WaitingRoomRepository waitingRoomRepository;
+    private final VisitRepository visitRepository;
     private final WaitingRoomMapper waitingRoomMapper;
 
     @Override
@@ -62,6 +64,17 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
     public WaitingRoomResponseDTO updateAlgorithm(Long id, AlgorithmUpdateDTO algorithmUpdateDTO) {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found"));
+
+        // Check for active visits (those not COMPLETED or CANCELLED)
+        boolean hasActiveVisits = visitRepository.existsByWaitingRoomIdAndStatusIn(
+                id,
+                Set.of(VisitorStatus.WAITING, VisitorStatus.IN_PROGRESS)
+        );
+        if (hasActiveVisits) {
+            throw new IllegalStateException(
+                    "Cannot change algorithm while there are active visits. Complete or cancel existing visits first."
+            );
+        }
 
         waitingRoom.setAlgorithm(algorithmUpdateDTO.getAlgorithm());
         return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(waitingRoom));
