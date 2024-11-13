@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/visitors")
 @RequiredArgsConstructor
@@ -22,6 +24,11 @@ public class VisitorController {
     @GetMapping("/{id}")
     public ResponseEntity<VisitorResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(visitorService.getById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<VisitorResponseDTO>> getAll() {
+        return ResponseEntity.ok(visitorService.getAll());
     }
 
     @GetMapping("/{id}/current-visit")

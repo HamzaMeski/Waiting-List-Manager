@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/waiting-rooms")
 @RequiredArgsConstructor
@@ -23,6 +25,18 @@ public class WaitingRoomController {
     @GetMapping("/today")
     public ResponseEntity<WaitingRoomResponseDTO> getTodayWaitingRoom() {
         return ResponseEntity.ok(waitingRoomService.getOrCreateTodayWaitingRoom());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WaitingRoomResponseDTO> getById(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(waitingRoomService.getById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<WaitingRoomResponseDTO>> getAll() {
+        return ResponseEntity.ok(waitingRoomService.getAll());
     }
 
     @PatchMapping("/{id}/algorithm")

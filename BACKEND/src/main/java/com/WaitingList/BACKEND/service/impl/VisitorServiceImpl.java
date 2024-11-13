@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,6 +39,13 @@ public class VisitorServiceImpl implements VisitorService {
         return visitorRepository.findById(id)
                 .map(visitorMapper::toResponseDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+    }
+
+    @Override
+    public List<VisitorResponseDTO> getAll() {
+        return visitorRepository.findAll().stream()
+                .map(visitorMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
