@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.NotActiveException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,6 +29,21 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
     public WaitingRoomResponseDTO create(WaitingRoomRequestDTO requestDTO) {
         WaitingRoom waitingRoom = waitingRoomMapper.toEntity(requestDTO);
         return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(waitingRoom));
+    }
+
+    @Override
+    public WaitingRoomResponseDTO getById(Long id) {
+        WaitingRoom waitingRoom = waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found with ID "+ id));
+
+        return waitingRoomMapper.toResponseDto(waitingRoom);
+    }
+
+    @Override
+    public List<WaitingRoomResponseDTO> getAll() {
+        return waitingRoomRepository.findAll().stream()
+                .map(waitingRoomMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
