@@ -3,6 +3,7 @@ package com.WaitingList.BACKEND.controller.v1;
 import com.WaitingList.BACKEND.dto.request.visit.VisitRequestDTO;
 import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.VisitService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ public class VisitController {
     private final VisitService visitService;
 
     @PostMapping("/arrival")
-    public ResponseEntity<VisitResponseDTO> registerArrival(@RequestBody VisitRequestDTO requestDTO) {
+    public ResponseEntity<VisitResponseDTO> registerArrival(@RequestBody @Valid VisitRequestDTO requestDTO) {
+        System.out.println("arrival...");
         return ResponseEntity.ok(visitService.registerArrival(requestDTO));
     }
 

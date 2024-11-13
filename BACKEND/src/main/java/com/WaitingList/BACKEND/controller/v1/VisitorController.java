@@ -4,6 +4,7 @@ import com.WaitingList.BACKEND.dto.request.visitor.VisitorRequestDTO;
 import com.WaitingList.BACKEND.dto.response.visitor.VisitorResponseDTO;
 import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.VisitorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class VisitorController {
     private final VisitorService visitorService;
 
     @PostMapping("/register")
-    public ResponseEntity<VisitorResponseDTO> register(@RequestBody VisitorRequestDTO requestDTO) {
+    public ResponseEntity<VisitorResponseDTO> register(@RequestBody @Valid VisitorRequestDTO requestDTO) {
         return ResponseEntity.ok(visitorService.register(requestDTO));
     }
 

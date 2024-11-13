@@ -5,6 +5,7 @@ import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
 import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class WaitingRoomController {
     private final WaitingRoomService waitingRoomService;
 
     @PostMapping
-    public ResponseEntity<WaitingRoomResponseDTO> create(@RequestBody WaitingRoomRequestDTO requestDTO) {
+    public ResponseEntity<WaitingRoomResponseDTO> create(@RequestBody @Valid WaitingRoomRequestDTO requestDTO) {
         return ResponseEntity.ok(waitingRoomService.create(requestDTO));
     }
 
@@ -42,7 +43,7 @@ public class WaitingRoomController {
     @PatchMapping("/{id}/algorithm")
     public ResponseEntity<WaitingRoomResponseDTO> updateAlgorithm(
             @PathVariable Long id,
-            @RequestBody AlgorithmUpdateDTO algorithmUpdateDTO
+            @RequestBody @Valid AlgorithmUpdateDTO algorithmUpdateDTO
     ) {
         return ResponseEntity.ok(waitingRoomService.updateAlgorithm(id, algorithmUpdateDTO));
     }
