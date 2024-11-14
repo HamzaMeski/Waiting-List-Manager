@@ -5,6 +5,7 @@ import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.entity.Visit;
 import com.WaitingList.BACKEND.entity.Visitor;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
+import com.WaitingList.BACKEND.exception.DuplicateResourceException;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
 import com.WaitingList.BACKEND.exception.ValidationException;
 import com.WaitingList.BACKEND.repository.VisitRepository;
@@ -37,6 +38,11 @@ public class VisitServiceImpl implements VisitService {
 
         Visitor visitor = visitorRepository.findById(requestDTO.getVisitorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+
+        // check if visitor is not already in the same waiting room
+        if(visitRepository.existsByVisitorIdAndWaitingRoomId(visitor.getId(), waitingRoom.getId())) {
+             throw new DuplicateResourceException("Visitor is already in the same waiting room");
+        }
 
         Visit visit = visitMapper.toEntity(requestDTO);
         visit.setVisitor(visitor);

@@ -20,4 +20,6 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
     Optional<Visit> findByVisitorIdAndStatusIn(Long visitorId, List<VisitorStatus> statuses);
 
     boolean existsByWaitingRoomIdAndStatusIn(Long waitingRoomId, Set<VisitorStatus> statuses);
+
+    boolean existsByVisitorIdAndWaitingRoomId(Long visitorId, Long waitingRoomId);
 }
