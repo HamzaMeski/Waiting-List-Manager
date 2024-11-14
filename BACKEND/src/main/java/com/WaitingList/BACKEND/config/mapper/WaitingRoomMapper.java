@@ -13,6 +13,9 @@ public interface WaitingRoomMapper {
     WaitingRoom toEntity(WaitingRoomRequestDTO requestDTO);
 
     @Mapping(target = "currentCapacity", expression = "java(entity.getVisits().size())")
+    @Mapping(target = "openTime", source = "openTime")
+    @Mapping(target = "closeTime", source = "closeTime")
+    @Mapping(target = "workingDays", source = "workingDays")
     WaitingRoomResponseDTO toResponseDto(WaitingRoom entity);
 
     void updateEntity(@MappingTarget WaitingRoom waitingRoom, WaitingRoomRequestDTO requestDTO);

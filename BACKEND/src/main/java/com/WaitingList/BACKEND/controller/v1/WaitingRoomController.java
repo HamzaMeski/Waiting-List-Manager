@@ -1,10 +1,10 @@
 package com.WaitingList.BACKEND.controller.v1;
 
 import com.WaitingList.BACKEND.dto.request.waitingRoom.AlgorithmUpdateDTO;
+import com.WaitingList.BACKEND.dto.request.waitingRoom.BusinessHoursUpdateDTO;
 import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
 import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
 import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
-import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +46,12 @@ public class WaitingRoomController {
             @RequestBody @Valid AlgorithmUpdateDTO algorithmUpdateDTO
     ) {
         return ResponseEntity.ok(waitingRoomService.updateAlgorithm(id, algorithmUpdateDTO));
+    }
+
+    @PatchMapping("/{id}/business-hours")
+    public ResponseEntity<WaitingRoomResponseDTO> updateBusinessHours(
+            @PathVariable Long id,
+            @Valid @RequestBody BusinessHoursUpdateDTO updateDTO) {
+        return ResponseEntity.ok(waitingRoomService.updateBusinessHours(id, updateDTO));
     }
 }
