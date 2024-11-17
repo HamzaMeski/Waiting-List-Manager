@@ -5,7 +5,6 @@ import com.WaitingList.BACKEND.entity.Visit;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
 import com.WaitingList.BACKEND.entity.WaitingRoomStatistics;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
-import com.WaitingList.BACKEND.repository.VisitRepository;
 import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
 import com.WaitingList.BACKEND.repository.WaitingRoomStatisticsRepository;
 import com.WaitingList.BACKEND.service.interfaces.StatisticsService;
