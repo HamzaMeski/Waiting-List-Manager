@@ -1,12 +1,11 @@
 # Build stage
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
-
-# Copy only pom.xml first to cache dependencies
 COPY pom.xml .
+# Download dependencies first (cache layer)
 RUN mvn dependency:go-offline
 
-# Then copy source code and build
+# Copy source and build
 COPY src ./src
 RUN mvn clean package -DskipTests
 
@@ -14,4 +13,6 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/BACKEND-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "-Dspring.output.ansi.enabled=ALWAYS", "app.jar"]
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
