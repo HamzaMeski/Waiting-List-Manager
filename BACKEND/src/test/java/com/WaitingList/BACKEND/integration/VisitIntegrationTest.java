@@ -60,7 +60,7 @@ class SimpleVisitIntegrationTest {
         // Arrange
         Visit visit = new Visit();
         visit.setWaitingRoom(waitingRoom);
-        visit.setVisitor(visitor);  // Set the visitor
+        visit.setVisitor(visitor);
         visit.setStatus(VisitorStatus.WAITING);
         visit.setArrivalTime(LocalDateTime.now());
         Visit savedVisit = visitRepository.save(visit);
@@ -78,7 +78,7 @@ class SimpleVisitIntegrationTest {
         // Arrange
         Visit visit = new Visit();
         visit.setWaitingRoom(waitingRoom);
-        visit.setVisitor(visitor);  // Set the visitor
+        visit.setVisitor(visitor);
         visit.setStatus(VisitorStatus.WAITING);
         visit.setArrivalTime(LocalDateTime.now());
         Visit savedVisit = visitRepository.save(visit);
