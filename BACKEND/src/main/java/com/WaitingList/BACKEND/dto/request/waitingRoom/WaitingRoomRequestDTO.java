@@ -1,6 +1,7 @@
 package com.WaitingList.BACKEND.dto.request.waitingRoom;
 
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
+import com.WaitingList.BACKEND.util.constants.ServiceTime;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,6 +20,8 @@ public class WaitingRoomRequestDTO {
     private LocalDate date;
 
     private SchedulingAlgorithm algorithm = SchedulingAlgorithm.FIFO;
+
+    private ServiceTime serviceTime = ServiceTime.CONTINUOUS;
 
     @Positive(message = "Max capacity must be positive")
     private Integer maxCapacity;

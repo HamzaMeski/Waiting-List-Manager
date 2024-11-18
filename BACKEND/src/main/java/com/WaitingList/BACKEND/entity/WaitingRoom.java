@@ -2,6 +2,7 @@ package com.WaitingList.BACKEND.entity;
 
 import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 
+import com.WaitingList.BACKEND.util.constants.ServiceTime;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.HashSet;
@@ -26,6 +27,10 @@ public class WaitingRoom {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SchedulingAlgorithm algorithm = SchedulingAlgorithm.FIFO;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ServiceTime serviceTime = ServiceTime.CONTINUOUS;
 
     private Integer maxCapacity;
 

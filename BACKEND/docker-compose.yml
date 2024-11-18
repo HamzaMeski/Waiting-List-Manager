@@ -5,7 +5,7 @@ services:
     image: postgres:15-alpine
     container_name: waiting-list-db
     environment:
-      - POSTGRES_DB=waitinglist_db     # This is the database name
+      - POSTGRES_DB=waitinglist_db
       - POSTGRES_USER=hamza
       - POSTGRES_PASSWORD=hamza
     ports:
@@ -15,7 +15,7 @@ services:
     networks:
       - waiting-list-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U hamza -d waitinglist_db"]  # Added -d waitinglist_db
+      test: ["CMD-SHELL", "pg_isready -U hamza -d waitinglist_db"]
       interval: 10s
       timeout: 5s
       retries: 5
