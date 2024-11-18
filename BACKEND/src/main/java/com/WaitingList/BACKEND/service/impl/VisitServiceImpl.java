@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,10 +32,35 @@ public class VisitServiceImpl implements VisitService {
     private final VisitorRepository visitorRepository;
     private final VisitMapper visitMapper;
 
+    private boolean isWithinServiceHours(WaitingRoom waitingRoom, LocalDateTime arrivalTime) {
+        LocalTime time = arrivalTime.toLocalTime();
+
+        switch (waitingRoom.getServiceTime()) {
+            case CONTINUOUS:
+                return time.isAfter(LocalTime.of(8, 0)) &&
+                        time.isBefore(LocalTime.of(17, 0));
+            case MORNING:
+                return time.isAfter(LocalTime.of(8, 0)) &&
+                        time.isBefore(LocalTime.of(12, 0));
+            case AFTERNOON:
+                return time.isAfter(LocalTime.of(14, 0)) &&
+                        time.isBefore(LocalTime.of(17, 0));
+            default:
+                return false;
+        }
+    }
+
     @Override
     public VisitResponseDTO registerArrival(VisitRequestDTO requestDTO) {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(requestDTO.getWaitingRoomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found"));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Validate service hours
+        if (!isWithinServiceHours(waitingRoom, now)) {
+            throw new ValidationException("Visit registration is not allowed during this time");
+        }
 
         Visitor visitor = visitorRepository.findById(requestDTO.getVisitorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
