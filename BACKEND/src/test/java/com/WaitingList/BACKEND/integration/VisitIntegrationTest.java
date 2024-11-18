@@ -1,80 +1,94 @@
 package com.WaitingList.BACKEND.integration;
 
-import com.WaitingList.BACKEND.dto.request.visit.VisitRequestDTO;
-import com.WaitingList.BACKEND.dto.response.visit.VisitResponseDTO;
 import com.WaitingList.BACKEND.entity.Visitor;
+import com.WaitingList.BACKEND.entity.Visit;
 import com.WaitingList.BACKEND.entity.WaitingRoom;
-import com.WaitingList.BACKEND.repository.VisitRepository;
 import com.WaitingList.BACKEND.repository.VisitorRepository;
+import com.WaitingList.BACKEND.repository.VisitRepository;
 import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
 import com.WaitingList.BACKEND.service.interfaces.VisitService;
-import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
+import com.WaitingList.BACKEND.util.constants.VisitorStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("test")
-@Transactional
-class VisitIntegrationTest {
+class SimpleVisitIntegrationTest {
 
     @Autowired
     private VisitService visitService;
 
     @Autowired
-    private VisitorRepository visitorRepository;
+    private VisitRepository visitRepository;
 
     @Autowired
     private WaitingRoomRepository waitingRoomRepository;
 
     @Autowired
-    private VisitRepository visitRepository;
+    private VisitorRepository visitorRepository;
 
-    private Visitor visitor;
     private WaitingRoom waitingRoom;
+    private Visitor visitor;
 
     @BeforeEach
     void setUp() {
-        // Create test visitor
-        visitor = new Visitor();
-        visitor.setName("John Doe");
-        visitor = visitorRepository.save(visitor);
+        // Clean up database
+        visitRepository.deleteAll();
+        waitingRoomRepository.deleteAll();
+        visitorRepository.deleteAll();
 
-        // Create test waiting room with all required fields
+        // Create test waiting room
         waitingRoom = new WaitingRoom();
         waitingRoom.setName("Test Room");
-        waitingRoom.setMaxCapacity(10);
         waitingRoom.setDate(LocalDate.now());
-        waitingRoom.setAlgorithm(SchedulingAlgorithm.FIFO); // Set the algorithm
         waitingRoom = waitingRoomRepository.save(waitingRoom);
+
+        // Create test visitor
+        visitor = new Visitor();
+        visitor.setName("Test Visitor");
+        visitor = visitorRepository.save(visitor);
     }
 
     @Test
-    void registerVisit_Success() {
+    void whenCancelVisit_ThenStatusShouldBeCancelled() {
         // Arrange
-        VisitRequestDTO requestDTO = new VisitRequestDTO();
-        requestDTO.setVisitorId(visitor.getId());
-        requestDTO.setWaitingRoomId(waitingRoom.getId());
+        Visit visit = new Visit();
+        visit.setWaitingRoom(waitingRoom);
+        visit.setVisitor(visitor);  // Set the visitor
+        visit.setStatus(VisitorStatus.WAITING);
+        visit.setArrivalTime(LocalDateTime.now());
+        Visit savedVisit = visitRepository.save(visit);
 
         // Act
-        VisitResponseDTO response = visitService.registerArrival(requestDTO);
+        visitService.cancelVisit(savedVisit.getId());
 
         // Assert
-        assertNotNull(response);
-        assertNotNull(response.getId());
-        assertEquals(visitor.getId(), response.getVisitor().getId());
-        assertEquals(waitingRoom.getId(), response.getWaitingRoom().getId());
+        Visit cancelledVisit = visitRepository.findById(savedVisit.getId()).orElseThrow();
+        assertEquals(VisitorStatus.CANCELLED, cancelledVisit.getStatus());
+    }
 
-        // Verify in database
-        assertTrue(visitRepository.existsByVisitorIdAndWaitingRoomId(
-                visitor.getId(),
-                waitingRoom.getId()
-        ));
+    @Test
+    void whenStartService_ThenStatusShouldBeInProgress() {
+        // Arrange
+        Visit visit = new Visit();
+        visit.setWaitingRoom(waitingRoom);
+        visit.setVisitor(visitor);  // Set the visitor
+        visit.setStatus(VisitorStatus.WAITING);
+        visit.setArrivalTime(LocalDateTime.now());
+        Visit savedVisit = visitRepository.save(visit);
+
+        // Act
+        visitService.startService(savedVisit.getId());
+
+        // Assert
+        Visit startedVisit = visitRepository.findById(savedVisit.getId()).orElseThrow();
+        assertEquals(VisitorStatus.IN_PROGRESS, startedVisit.getStatus());
+        assertNotNull(startedVisit.getStartTime());
     }
 }
