@@ -6,8 +6,6 @@ import com.WaitingList.BACKEND.entity.Visit;
 import com.WaitingList.BACKEND.exception.ResourceNotFoundException;
 import com.WaitingList.BACKEND.exception.ValidationException;
 import com.WaitingList.BACKEND.repository.VisitRepository;
-import com.WaitingList.BACKEND.repository.VisitorRepository;
-import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
 import com.WaitingList.BACKEND.util.constants.VisitorStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +25,6 @@ import static org.mockito.Mockito.*;
 class VisitServiceImplTest {
     @Mock
     private VisitRepository visitRepository;
-    @Mock
-    private WaitingRoomRepository waitingRoomRepository;
-    @Mock
-    private VisitorRepository visitorRepository;
     @Mock
     private VisitMapper visitMapper;
 
