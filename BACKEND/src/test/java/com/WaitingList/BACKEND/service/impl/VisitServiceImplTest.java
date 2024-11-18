@@ -179,3 +179,25 @@ class VisitServiceImplTest {
         assertEquals("Cannot cancel a finished visit", exception.getMessage());
     }
 }
+
+/*
+=>startService:
+    Success case
+    Visit not found
+    Visit not in waiting status
+
+=>completeService:
+    Success case
+    Visit not found
+    Visit not in progress
+
+=>cancelVisit:
+    Success case
+    Visit not found
+    Visit already finished
+
+=>Each method is tested for:
+    Happy path (successful execution)
+    Error paths (various failure scenarios)
+    Edge cases
+*/
