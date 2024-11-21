@@ -55,7 +55,12 @@ public class VisitServiceImpl implements VisitService {
         WaitingRoom waitingRoom = waitingRoomRepository.findById(requestDTO.getWaitingRoomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found"));
 
+        if(waitingRoom.getVisits().size() >= waitingRoom.getMaxCapacity()) {
+            throw new ValidationException("Can not register new arrival, Current Capacity Will over Max Capacity");
+        }
+
         LocalDateTime now = LocalDateTime.now();
+
 
         // Validate service hours
         if (!isWithinServiceHours(waitingRoom, now)) {
