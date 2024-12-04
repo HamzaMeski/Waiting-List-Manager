@@ -4,6 +4,8 @@ import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 
 import com.WaitingList.BACKEND.util.constants.ServiceTime;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +20,7 @@ public class WaitingRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "name is required")
     @Column(nullable = false)
     private String name;
 

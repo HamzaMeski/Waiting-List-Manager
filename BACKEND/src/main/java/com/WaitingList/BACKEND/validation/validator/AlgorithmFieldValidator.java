@@ -8,7 +8,9 @@ import com.WaitingList.BACKEND.validation.annotation.AlgorithmFieldValidation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AlgorithmFieldValidator implements ConstraintValidator<AlgorithmFieldValidation, VisitRequestDTO> {
     private final WaitingRoomRepository waitingRoomRepository;
@@ -21,7 +23,7 @@ public class AlgorithmFieldValidator implements ConstraintValidator<AlgorithmFie
 
         WaitingRoom waitingRoom = waitingRoomRepository.findById(visitRequest.getWaitingRoomId())
                 .orElse(null);
-        
+
         if (waitingRoom == null) {
             return false;
         }
