@@ -63,9 +63,9 @@ public class VisitServiceImpl implements VisitService {
 
 
         // Validate service hours
-        if (!isWithinServiceHours(waitingRoom, now)) {
-            throw new ValidationException("Visit registration is not allowed during this time");
-        }
+//        if (!isWithinServiceHours(waitingRoom, now)) {
+//            throw new ValidationException("Visit registration is not allowed during this time");
+//        }
 
         Visitor visitor = visitorRepository.findById(requestDTO.getVisitorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));

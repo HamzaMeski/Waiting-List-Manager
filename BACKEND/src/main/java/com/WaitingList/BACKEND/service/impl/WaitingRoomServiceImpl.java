@@ -1,5 +1,6 @@
 package com.WaitingList.BACKEND.service.impl;
 
+import com.WaitingList.BACKEND.config.AppConfig;
 import com.WaitingList.BACKEND.dto.request.waitingRoom.AlgorithmUpdateDTO;
 import com.WaitingList.BACKEND.dto.request.waitingRoom.WaitingRoomRequestDTO;
 import com.WaitingList.BACKEND.dto.response.waitingRoom.WaitingRoomResponseDTO;
@@ -9,8 +10,10 @@ import com.WaitingList.BACKEND.repository.VisitRepository;
 import com.WaitingList.BACKEND.repository.WaitingRoomRepository;
 import com.WaitingList.BACKEND.service.interfaces.WaitingRoomService;
 import com.WaitingList.BACKEND.config.mapper.WaitingRoomMapper;
+import com.WaitingList.BACKEND.util.constants.SchedulingAlgorithm;
 import com.WaitingList.BACKEND.util.constants.VisitorStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +25,34 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class WaitingRoomServiceImpl implements WaitingRoomService {
     private final WaitingRoomRepository waitingRoomRepository;
     private final VisitRepository visitRepository;
     private final WaitingRoomMapper waitingRoomMapper;
+    private final AppConfig appConfig;
 
     @Override
     public WaitingRoomResponseDTO create(WaitingRoomRequestDTO requestDTO) {
+        log.info("start create...");
+        int maxCapacity = requestDTO.getMaxCapacity() != 0 ? requestDTO.getMaxCapacity() : appConfig.getMaxCapacity();
+
+        log.info("appConfig defaultAlgo: {}", appConfig.getDefaultAlgo());
+
+        SchedulingAlgorithm algorithm = null;
+        if(requestDTO.getAlgorithm() == null ) {
+            if(appConfig.getDefaultAlgo().equals("FIFO")) algorithm = SchedulingAlgorithm.FIFO;
+            else if(appConfig.getDefaultAlgo().equals("PRIORITY")) algorithm = SchedulingAlgorithm.PRIORITY;
+            else algorithm = SchedulingAlgorithm.SJF;
+        }else {
+            algorithm = requestDTO.getAlgorithm();
+        }
+        log.info("maxCapacity: {}", maxCapacity);
+        log.info("algo: {}", algorithm);
         WaitingRoom waitingRoom = waitingRoomMapper.toEntity(requestDTO);
+        waitingRoom.setMaxCapacity(maxCapacity);
+        waitingRoom.setAlgorithm(algorithm);
+
         return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(waitingRoom));
     }
 
